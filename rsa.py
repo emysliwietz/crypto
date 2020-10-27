@@ -2,12 +2,15 @@
 
 from mod import Mod
 
-p = 821
-q = 701
-e = 2 ** 16 + 1
+p = 1361
+q = 1307
+e = 65537
 
 n = p * q
 phi_n = (p - 1) * (q - 1)
+
+print(f"n = {n}")
+print(f"phi_n = {phi_n}")
 e = Mod(e, phi_n)
 d = e ^ -1
 
