@@ -4,11 +4,11 @@ from mod import Mod
 
 
 class EdwardCurve:
-    def __init__(self, f, g, mod):
-        """E = x^2 + y^2 = f + g*x^2*y^1."""
+    def __init__(self, f=1, d, mod):
+        """E = x^2 + y^2 = f + d*x^2*y^2."""
         self.mod = mod
         self.f = Mod(f, self.mod)
-        self.g = Mod(g, self.mod)
+        self.d = Mod(d, self.mod)
 
     def on_curve(self, p, quiet=False):
         (x, y) = p
@@ -18,11 +18,11 @@ class EdwardCurve:
             print(
                 f"({x.i}, {y.i}): {(x^2).i} + {(y^2).i} = "
                 f"{((x ^ 2) + (y ^ 2)).i} = "
-                f"{self.f.i} + {self.g.i} * {(x^2).i} * {(y^2).i} = "
-                f"{(self.f + (self.g * (x ^ 2) * (y ^ 2))).i} (mod {self.mod})",
+                f"{self.f.i} + {self.d.i} * {(x^2).i} * {(y^2).i} = "
+                f"{(self.f + (self.d * (x ^ 2) * (y ^ 2))).i} (mod {self.mod})",
                 end="",
             )
-        if (x ^ 2) + (y ^ 2) == self.f + (self.g * (x ^ 2) * (y ^ 2)):
+        if (x ^ 2) + (y ^ 2) == self.f + (self.d * (x ^ 2) * (y ^ 2)):
             if not quiet:
                 print(" | on curve")
             return True
@@ -82,8 +82,11 @@ class EdwardCurve:
         y3 = ((y1 ^ 2) - (x1 ^ 2)) / (Mod(2, self.mod) - (x1 ^ 2) - (y1 ^ 2))
         print(f"({x3.i}, {y3.i})")
 
+    def __str__(self):
+        print(f"x^2 + y^2 = {self.f} + {self.d}*x^2*y^2")
 
-E = EdwardCurve(1, 11, 17)
+
+E = EdwardCurve(11, 17)
 
 E.on_curve((3, 7))
 
